@@ -1,11 +1,12 @@
 SELECT
-	BillingCountry,
-	MAX(SalesPerCountry)
+	Country,
+	MAX(TotalSales)
 FROM (
 	SELECT
-		i.BillingCountry,
-		COUNT(i.InvoiceId) AS SalesPerCountry
+		c.Country,
+		SUM(i.Total) AS TotalSales
 	FROM
-		Invoice i
+		Customer c
+		JOIN Invoice i ON i.CustomerId = c.CustomerId
 	GROUP BY
-		(BillingCountry));
+		c.Country)
